@@ -37,14 +37,28 @@
                                 <p class="text-muted">Sign in to continue to Velzon.</p>
                             </div>
                             <div class="p-2 mt-4">
-                                <form action="index.html">
-
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username"
-                                            placeholder="Enter username">
+                                @if (session()->has('error'))
+                                    <div class="alert alert-danger alert-dismissible alert-label-icon label-arrow show"
+                                        role="alert">
+                                        <i class="ri-error-warning-line label-icon"></i><strong>Error</strong> -
+                                        {{ session('error') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss=" alert"
+                                            aria-label="Close"></button>
                                     </div>
-
+                                @endif
+                                <form action="/" method="POST">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" name="email"
+                                            class="form-control @error('email') is-invalid @enderror" id="email"
+                                            placeholder="Enter email" value="{{ old('email') }}">
+                                        @error('email')
+                                            <small class="text-danger">
+                                                {{ $message }}
+                                            </small>
+                                        @enderror
+                                    </div>
                                     <div class="mb-3">
                                         <div class="float-end">
                                             <a href="auth-pass-reset-basic.html" class="text-muted">Forgot
@@ -52,17 +66,23 @@
                                         </div>
                                         <label class="form-label" for="password-input">Password</label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input type="password" class="form-control pe-5 password-input"
+                                            <input type="password" name="password"
+                                                class="form-control pe-5 password-input @error('password') border-danger @enderror"
                                                 placeholder="Enter password" id="password-input">
                                             <button
                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
                                                 type="button" id="password-addon"><i
                                                     class="ri-eye-fill align-middle"></i></button>
+                                            @error('password')
+                                                <small class="text-danger">
+                                                    {{ $message }}
+                                                </small>
+                                            @enderror
                                         </div>
                                     </div>
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
+                                        <input class="form-check-input" name="remember_me" type="checkbox" value="true"
                                             id="auth-remember-check">
                                         <label class="form-check-label" for="auth-remember-check">Remember
                                             me</label>

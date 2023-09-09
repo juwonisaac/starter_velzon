@@ -9,6 +9,10 @@ use Illuminate\Http\RedirectResponse;
 
 class LoginController extends Controller
 {
+    public function index()
+    {
+        return view('pages.auth.auth-signin-basic');
+    }
     /**
      * Handle an authentication attempt.
      */
@@ -19,18 +23,19 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $remember = $request->input('remember_me');
+
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended('dashboard-ecommerce');
         }
 
         if (Auth::viaRemember()) {
-            return redirect()->intended('dashboard');
+            return redirect()->intended('dashboard-ecommerce');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        return back()->with('error', 'The provided credentials do not match our records.');
     }
 }

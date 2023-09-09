@@ -71,7 +71,6 @@
     <script src="{{ asset('') }}assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="{{ asset('') }}assets/js/plugins.js"></script>
 
-
     @stack('page-script')
 </body>
 

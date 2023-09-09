@@ -1,4 +1,4 @@
-@extends('layouts.auth.master')
+@extends('layouts.auth.master-cover')
 
 @section('content')
     <!-- auth-page content -->
