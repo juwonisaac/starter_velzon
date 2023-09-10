@@ -39,14 +39,32 @@
 
                             </div>
 
-                            <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
-                                Enter your email and instructions will be sent to you!
-                            </div>
+                            @if (session()->has('status'))
+                                <div class="alert border-0 alert-success text-center mb-2 mx-2" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @elseif($errors->any())
+                                <div class="alert border-0 alert-success text-center mb-2 mx-2" role="alert">
+                                    {{ $errors->first() }}
+                                </div>
+                            @else
+                                <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
+                                    Enter your email and instructions will be sent to you!
+                                </div>
+                            @endif
                             <div class="p-2">
-                                <form>
+                                <form action="{{ route('password.forgot') }}" method="POST">
+                                    @csrf
                                     <div class="mb-4">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" placeholder="Enter Email">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" name="email"
+                                            class="form-control @error('email') is-invalid @enderror" id="email"
+                                            placeholder="Enter email" value="{{ old('email') }}">
+                                        @error('email')
+                                            <small class="text-danger">
+                                                {{ $message }}
+                                            </small>
+                                        @enderror
                                     </div>
 
                                     <div class="text-center mt-4">
@@ -60,7 +78,7 @@
                     <!-- end card -->
 
                     <div class="mt-4 text-center">
-                        <p class="mb-0">Wait, I remember my password... <a href="auth-signin-basic.html"
+                        <p class="mb-0">Wait, I remember my password... <a href="{{ route('login') }}"
                                 class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
                     </div>
 
